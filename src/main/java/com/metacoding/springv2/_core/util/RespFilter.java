@@ -1,4 +1,4 @@
-package com.metacoding.springv2.core.util;
+package com.metacoding.springv2._core.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.mock.web.MockHttpServletRequest;
-import com.metacoding.springv2.core.util.*;
+
+import com.metacoding.springv2._core.util.*;
 import com.metacoding.springv2.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 

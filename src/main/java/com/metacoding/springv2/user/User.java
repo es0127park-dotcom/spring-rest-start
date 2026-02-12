@@ -1,18 +1,24 @@
 package com.metacoding.springv2.user;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.*;
-import java.util.*;
 import java.sql.Timestamp;
+
 import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
 @Entity
 @Table(name = "user_tb")
-public class User implements UserDetails {
+public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -23,7 +29,7 @@ public class User implements UserDetails {
     private String password;
     @Column(length = 30, nullable = false)
     private String email;
-    private String roles = "USER"; // 디폴트값은 USER
+    private String roles; // 디폴트값은 USER
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -43,20 +49,4 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void updateRoles(String roles) {
-        this.roles = roles;
-    }
-
-    // 스프링 시큐리티 권한 처리
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        // roles는 단일값 USER 혹은 복수값 USER,ADMIN 형태로 존재함
-        String[] roleList = roles.split(",");
-
-        for (String role : roleList) {
-            authorities.add(() -> "ROLE_" + role);
-        }
-        return authorities;
-    }
 }

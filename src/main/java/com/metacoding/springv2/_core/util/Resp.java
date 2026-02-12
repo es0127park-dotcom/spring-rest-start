@@ -1,4 +1,4 @@
-package com.metacoding.springv2.core.util;
+package com.metacoding.springv2._core.util;
 
 import lombok.Data;
 import org.springframework.http.*;
@@ -17,7 +17,7 @@ public class Resp<T> {
 
     public static <B> ResponseEntity<Resp<B>> ok(B body) {
         Resp<B> resp = new Resp<>(200, "성공", body);
-        return new ResponseEntity<>(resp, HttpStatus.OK);
+        return new ResponseEntity<>(resp, HttpStatus.OK); // body, header를 응답할 수 있는 클래스
     }
 
     public static ResponseEntity<?> fail(HttpStatus status, String msg) {
