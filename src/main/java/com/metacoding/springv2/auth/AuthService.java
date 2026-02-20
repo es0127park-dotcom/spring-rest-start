@@ -2,9 +2,11 @@ package com.metacoding.springv2.auth;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.metacoding.springv2._core.handler.ex.Exception401;
 import com.metacoding.springv2._core.util.JwtUtil;
+import com.metacoding.springv2.auth.AuthRequest.JoinDTO;
 import com.metacoding.springv2.auth.AuthRequest.LoginDTO;
 import com.metacoding.springv2.user.User;
 import com.metacoding.springv2.user.UserRepository;
@@ -29,6 +31,22 @@ public class AuthService {
             throw new Exception401("비밀번호가 틀렸어요");
 
         return JwtUtil.create(findUser);
+    }
+
+    @Transactional
+    public AuthResponse.DTO 회원가입(JoinDTO reqDTO) {
+
+        // 1. 패스워드 해시하기 (해시하면 복호화 안됨)
+        String encPassword = bCryptPasswordEncoder.encode(reqDTO.getPassword());
+
+        User user = User.builder()
+                .username(reqDTO.getUsername())
+                .password(encPassword)
+                .email(reqDTO.getEmail())
+                .roles("USER")
+                .build();
+        userRepository.save(user);
+        return new AuthResponse.DTO(user);
     }
 
 }

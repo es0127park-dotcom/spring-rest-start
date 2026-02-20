@@ -2,27 +2,31 @@ package com.metacoding.springv2._core.util;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
-import com.metacoding.springv2.user.User;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-@Component
+import com.metacoding.springv2.user.User;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 public class JwtProvider {
 
     // Bearer JWT -> JWT만 추출하기
-    public String resolveToken(HttpServletRequest request) {
+    public static String resolveToken(HttpServletRequest request) {
+        String jwt = request.getHeader("Authorization");
+
+        if (jwt != null && jwt.startsWith(JwtUtil.TOKEN_PREFIX) && !jwt.isBlank()) {
+            jwt = jwt.replace("Bearer ", "");
+            return jwt;
+        }
+
         return null;
     }
 
     // 토큰을 검증하고 Authentication 반환
-    public Authentication getAuthentication(String token) {
-        return null;
-    }
+    public static Authentication getAuthentication(String token) {
+        User user = JwtUtil.verify(token);
 
-    // 토큰이 유효한지 단순 체크
-    public boolean validateToken(String token) {
-        return false;
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
+        return authentication;
     }
 }

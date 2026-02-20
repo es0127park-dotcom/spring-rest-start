@@ -16,13 +16,17 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @PostMapping("/join")
+    public ResponseEntity<?> join(@RequestBody AuthRequest.JoinDTO reqDTO) {
+        var respDTO = authService.회원가입(reqDTO);
+        return Resp.ok(respDTO);
+    }
+
     // 토큰 기반 인증 서버
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest.LoginDTO reqDTO){
-
+    public ResponseEntity<?> login(@RequestBody AuthRequest.LoginDTO reqDTO) {
         String accessToken = authService.로그인(reqDTO);
-
-        return Resp.ok(accessToken); 
+        return Resp.ok(accessToken);
     }
 
     @GetMapping("/health")

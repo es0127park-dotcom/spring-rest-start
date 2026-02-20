@@ -58,7 +58,7 @@ public class User implements UserDetails {
         Collection<GrantedAuthority> as = new ArrayList<>();
         String[] roleList = roles.split(",");
         for (String role : roleList) {
-            as.add(() -> role);
+            as.add(() -> "ROLE_" + role); // 스프링은 권한이름 앞에 ROLE_ 붙여야 권한이라 인식하고 체크 함 (ROLE_ADMIN)
         }
 
         return as;
