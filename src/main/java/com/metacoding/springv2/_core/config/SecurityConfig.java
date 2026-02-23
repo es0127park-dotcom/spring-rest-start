@@ -26,7 +26,7 @@ public class SecurityConfig {
         http.headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
-        http.cors(c -> c.disable());
+        // http.cors(c -> c.disable());
 
         http.exceptionHandling(ex -> ex
                 .authenticationEntryPoint(
